@@ -30,7 +30,7 @@ func main() {
 		fmt.Println("something went wrong creating queue")
 	}
 
-	ch.Send("testQ", "Hello, world")
+	ch.Publish("testQ", "Hello, world")
 
 	feed.Close()
 

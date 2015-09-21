@@ -21,7 +21,7 @@ func (c *Channel) DeclareQueue(name string) error {
 	return err
 }
 
-func (c *Channel) Send(queueName string, body string) {
+func (c *Channel) Publish(queueName string, body string) {
 	q := c.queues[queueName]
 
 	if q == nil {
@@ -40,6 +40,26 @@ func (c *Channel) Send(queueName string, body string) {
 		})
 	log.Info(" [x] Sent %s to %s", body, queueName)
 	failOnError(err, "Failed to publish a message")
+}
+
+func (c *Channel) Consume(queueName string) {
+
+	msgs, err := c.amqpChannel.Consume(
+		queueName, // queue
+		"",        // consumer
+		true,      // auto-ack
+		false,     // exclusive
+		false,     // no-local
+		false,     // no-wait
+		nil,       // args
+	)
+
+	failOnError(err, "Failed to register a consumer.")
+	go func() {
+		for d := range msgs {
+			log.Info("Received a message: " + string(d.Body))
+		}
+	}()
 }
 
 func NewChannel(name string, conn *amqp.Connection) (*Channel, error) {
