@@ -30,9 +30,10 @@ func main() {
 		fmt.Println("something went wrong creating queue")
 	}
 
-	ch.Consume("testQ")
+	rec := ch.Consume("testQ")
 
-	forever := make(chan bool)
-	<-forever
-
+	for {
+		msg := <-rec
+		fmt.Println(string(msg.Body))
+	}
 }

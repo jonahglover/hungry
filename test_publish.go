@@ -6,6 +6,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -30,7 +31,10 @@ func main() {
 		fmt.Println("something went wrong creating queue")
 	}
 
-	ch.Publish("testQ", "Hello, world")
+	for {
+		ch.Publish("testQ", "Hello, world")
+		time.Sleep(100 * time.Millisecond)
+	}
 
 	feed.Close()
 
