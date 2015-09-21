@@ -32,7 +32,7 @@ func main() {
 	}
 
 	for {
-		ch.Publish("testQ", "Hello, World from write 1")
+		ch.Publish("testQ", "Hello, World from write 2")
 		time.Sleep(100 * time.Millisecond)
 	}
 
