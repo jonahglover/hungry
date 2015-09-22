@@ -1,4 +1,4 @@
-package main
+package hungry
 
 import (
 	"fmt"
